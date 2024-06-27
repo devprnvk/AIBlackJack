@@ -13,12 +13,15 @@ public class BlackjackGameLogic {
     private boolean playerTurn;
 
     public BlackjackGameLogic() {
+        resetGame();
+    }
+
+    public void resetGame() {
         deck = new Deck();
         deck.shuffle();
         playerHand = new Hand();
         dealerHand = new Hand();
         playerTurn = true;
-
         dealInitialHands();
     }
 
@@ -52,6 +55,9 @@ public class BlackjackGameLogic {
         int playerTotal = playerHand.getTotalValue();
         int dealerTotal = dealerHand.getTotalValue();
 
+        System.out.println("Player's hand: " + playerHand + " (Total: " + playerTotal + ")");
+        System.out.println("Dealer's hand: " + dealerHand + " (Total: " + dealerTotal + ")");
+
         if (playerHand.hasBlackjack() && !dealerHand.hasBlackjack()) {
             System.out.println("Player has blackjack!");
         } else if (dealerHand.hasBlackjack() && !playerHand.hasBlackjack()) {
@@ -72,28 +78,18 @@ public class BlackjackGameLogic {
     }
 
     public boolean isGameOver() {
-      return false;
+        return !playerTurn;
     }
 
     public boolean isPlayerTurn() {
         return playerTurn;
     }
-    public void split() {
-        if (playerTurn && canSplit(playerHand)) {
-            Hand hand1 = new Hand();
-            Hand hand2 = new Hand();
-            Card card = playerHand.getCards().get(1); // Get the second card for splitting
-            playerHand.getCards().remove(1);
-            hand1.addCard(playerHand.getCards().get(0));
-            hand2.addCard(card);
-            hand1.addCard(deck.dealCard());
-            hand2.addCard(deck.dealCard());
-            playerHand = hand1;
-        }
+
+    public Hand getPlayerHand() {
+        return playerHand;
     }
 
-    private boolean canSplit(Hand hand) {
-        List<Card> cards = hand.getCards();
-        return cards.size() == 2 && cards.get(0).getRank() == cards.get(1).getRank();
+    public Hand getDealerHand() {
+        return dealerHand;
     }
 }

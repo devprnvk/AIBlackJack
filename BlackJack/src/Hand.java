@@ -4,12 +4,10 @@ import java.util.List;
 public class Hand {
     private List<Card> cards;
 
-    // Constructor to initialize an empty hand
     public Hand() {
         cards = new ArrayList<>();
     }
 
-    // Method to add a card to the hand
     public void addCard(Card card) {
         cards.add(card);
     }
@@ -28,10 +26,12 @@ public class Hand {
                 aceCount++;
             }
         }
+
         while (val > 21 && aceCount > 0) {
             val -= 10;
             aceCount--;
         }
+
         return val;
     }
 
@@ -39,13 +39,16 @@ public class Hand {
         return cards.size() == 2 && getTotalValue() == 21;
     }
 
-    // Method to check if the hand has busted (total value > 21)
     public boolean hasBusted() {
         return getTotalValue() > 21;
     }
 
-    // Method to get the cards in the hand
     public List<Card> getCards() {
         return cards;
+    }
+
+    @Override
+    public String toString() {
+        return cards.toString();
     }
 }
