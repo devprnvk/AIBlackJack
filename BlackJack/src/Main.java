@@ -1,8 +1,9 @@
 import java.util.Scanner;
+import UI.BlackjackWindow;
 
 public class Main {
     public static void main(String[] args) {
-//        BlackjackWindow blackjackWindow = new BlackjackWindow();
+        BlackjackWindow blackjackWindow = new BlackjackWindow();
         Scanner scanner = new Scanner(System.in);
         BlackjackGameLogic game = new BlackjackGameLogic();
         int playerWins = 0;
