@@ -9,7 +9,7 @@ import java.util.List;
 public class Player {
     /** Field to keep track of hands */
     private List<Hand> hands;
-    private int balance; // Player's balance (chips)
+    private int balance;
 
     public Player(int initialBalance) {
         this.balance = initialBalance;
@@ -30,5 +30,24 @@ public class Player {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public void placeBet(int betAmount) {
+        if (betAmount > balance) {
+            throw new IllegalArgumentException("Bet amount exceeds current balance.");
+        }
+        balance -= betAmount;
+    }
+
+    public void winBet(int betAmount) {
+        balance += betAmount;
+    }
+
+    public void loseBet(int betAmount) {
+
+    }
+
+    public void tieBet(int betAmount) {
+        balance += betAmount;
     }
 }
