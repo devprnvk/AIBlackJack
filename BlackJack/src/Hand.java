@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This Class keeps track of the User's Hand in the Game
+ * A list of all cards and ability to get the values
+ * @author Pranav Kale 
+ */
 public class Hand {
     private List<Card> cards;
 

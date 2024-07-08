@@ -1,3 +1,8 @@
+/**
+ * This Class keeps track of all the Statistics in the Game
+ * Includes Games Played, Won, Lost, and Tied
+ * @author Pranav Kale
+ */
 public class GameStatistics {
     private int gamesPlayed;
     private int gamesWon;
@@ -5,7 +10,9 @@ public class GameStatistics {
     private int gamesTied;
 
     public GameStatistics() {
+
         resetStatistics();
+
     }
 
     public void resetStatistics() {
