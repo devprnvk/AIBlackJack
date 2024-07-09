@@ -13,21 +13,39 @@ public class Main {
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Player player = new Player(1000);  // Initialize player with a balance
+        Player player = null;
+        AIPlayer aiPlayer = null;
         GameStatistics stats = new GameStatistics();
-        BlackjackGameLogic game = new BlackjackGameLogic(player);
+        BlackjackGameLogic game = null;
+
+        System.out.println("Welcome to AI Blackjack!");
+        System.out.print("Choose game mode: Easy or AI? ");
+        String gameMode = scanner.nextLine().trim().toLowerCase();
+
+        if (gameMode.equals("ai")) {
+            aiPlayer = new AIPlayer(1000);
+            game = new BlackjackGameLogic(aiPlayer);
+        } else {
+            player = new Player(1000);
+            game = new BlackjackGameLogic(player);
+        }
+
 
         boolean playAgain = true;
-        while (playAgain && player.getBalance() > 0) {
+        while (playAgain && (gameMode.equals("easy") ? player.getBalance() > 0 : aiPlayer.getBalance() > 0)) {
             stats.incrementGamesPlayed();
 
-            System.out.println("Current Balance: " + player.getBalance() + " chips");
+            System.out.println("Current Balance: " + (gameMode.equals("easy") ? player.getBalance() : aiPlayer.getBalance()) + " chips");
             int betAmount = 0;
             while (true) {
                 try {
                     System.out.print("Place your bet: ");
                     betAmount = Integer.parseInt(scanner.nextLine());
-                    player.placeBet(betAmount);
+                    if (gameMode.equals("easy")) {
+                        player.placeBet(betAmount);
+                    } else {
+                        aiPlayer.placeBet(betAmount);
+                    }
                     break;
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid input. Please enter a valid number.");
@@ -51,7 +69,11 @@ public class Main {
                         if (game.getPlayerHand().hasBusted()) {
                             System.out.println("Player's hand: " + game.getPlayerHand() + " (Total: " + game.getPlayerHand().getTotalValue() + ")");
                             System.out.println("Player busted!");
-                            player.loseBet(betAmount);
+                            if (gameMode.equals("easy")) {
+                                player.loseBet(betAmount);
+                            } else {
+                                aiPlayer.loseBet(betAmount);
+                            }
                             stats.incrementGamesLost();
                             break;
                         }
@@ -71,21 +93,33 @@ public class Main {
                 int dealerTotal = game.getDealerHand().getTotalValue();
 
                 if (playerTotal > dealerTotal && !game.getPlayerHand().hasBusted() || game.getDealerHand().hasBusted()) {
-                    player.winBet(2 * betAmount);
+                    if (gameMode.equals("easy")) {
+                        player.winBet(2 * betAmount);
+                    } else {
+                        aiPlayer.winBet(2 * betAmount);
+                    }
                     stats.incrementGamesWon();
                 } else if (dealerTotal > playerTotal && !game.getDealerHand().hasBusted()) {
-                    player.loseBet(betAmount);
+                    if (gameMode.equals("easy")) {
+                        player.loseBet(betAmount);
+                    } else {
+                        aiPlayer.loseBet(betAmount);
+                    }
                     stats.incrementGamesLost();
                 } else {
-                    player.tieBet(betAmount);
+                    if (gameMode.equals("easy")) {
+                        player.tieBet(betAmount);
+                    } else {
+                        aiPlayer.tieBet(betAmount);
+                    }
                     stats.incrementGamesTied();
                 }
             }
 
             System.out.println("Current Score: Games Played: " + stats.getGamesPlayed() + " | Wins: " + stats.getGamesWon() + " | Losses: " + stats.getGamesLost() + " | Ties: " + stats.getGamesTied());
-            System.out.println("Current Balance: " + player.getBalance() + " chips");
+            System.out.println("Current Balance: " + (gameMode.equals("easy") ? player.getBalance() : aiPlayer.getBalance()) + " chips");
 
-            if (player.getBalance() <= 0) {
+            if ((gameMode.equals("easy") ? player.getBalance() : aiPlayer.getBalance()) <= 0) {
                 System.out.println("You are out of chips!");
                 break;
             }
@@ -102,6 +136,6 @@ public class Main {
         scanner.close();
         System.out.println("Final Score: Games Played: " + stats.getGamesPlayed() + " | Wins: " + stats.getGamesWon() + " | Losses: " + stats.getGamesLost() + " | Ties: " + stats.getGamesTied());
         System.out.println("Win Percentage: " + stats.getWinPercentage() + "%");
-        System.out.println("Final Balance: " + player.getBalance() + " chips");
+        System.out.println("Final Balance: " + (gameMode.equals("easy") ? player.getBalance() : aiPlayer.getBalance()) + " chips");
     }
 }
