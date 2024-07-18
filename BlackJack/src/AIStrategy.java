@@ -1,6 +1,11 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+/**
+ * This class uses the player action to determine the best possible move
+ *
+ * @author Pranav Kale
+ */
 public class AIStrategy {
     public static String getAction(int playerHand, int dealerCard) {
         try {

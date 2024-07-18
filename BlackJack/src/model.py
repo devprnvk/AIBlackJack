@@ -26,3 +26,22 @@ predictions = model.predict(X_test)
 print('Accuracy:', accuracy_score(y_test, predictions))
 
 joblib.dump(model, 'blackjack_ai_model.pkl')
+import joblib
+import sys
+import pandas as pd
+
+model = joblib.load('blackjack_ai_model.pkl')
+
+card1 = int(sys.argv[1])
+card2 = int(sys.argv[2])
+card3 = int(sys.argv[3])
+card4 = int(sys.argv[4])
+card5 = int(sys.argv[5])
+dealcard1 = int(sys.argv[6])
+
+input_data = pd.DataFrame([[card1, card2, card3, card4, card5, dealcard1]],
+                          columns=['card1', 'card2', 'card3', 'card4', 'card5', 'dealcard1'])
+
+action = model.predict(input_data)[0]
+
+print(action)
