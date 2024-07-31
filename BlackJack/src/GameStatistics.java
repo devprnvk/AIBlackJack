@@ -15,6 +15,9 @@ public class GameStatistics {
 
     }
 
+    /**
+     * Reset the statistics in game when they are no longer needed
+     */
     public void resetStatistics() {
         gamesPlayed = 0;
         gamesWon = 0;

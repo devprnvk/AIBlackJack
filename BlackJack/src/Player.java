@@ -11,6 +11,10 @@ public class Player {
     private List<Hand> hands;
     private int balance;
 
+     /**
+      * Constructor for the Player object
+     * @param initialBalance the starting balance
+     */
     public Player(int initialBalance) {
         this.balance = initialBalance;
         this.hands = new ArrayList<>();
